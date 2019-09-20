@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record id="purchase_order_form_inherit" model="ir.ui.view">
+            <field name="name">Purchase Order One</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_ref']" position="after">
+                    <field name="po_created" invisible="1"/>
+                </xpath>
+                <xpath expr="//notebook/page/field[@name='order_line']/tree/field[@name='name']" position="before">
+                    <field name="service" attrs="{'column_invisible': [('parent.po_created', '!=', True)]}"/>
+                    <field name="final_product" attrs="{'column_invisible': [('parent.po_created', '!=', True)]}"/>
+                </xpath>
+                <xpath expr="//notebook/page/field[@name='order_line']/tree/field[@name='product_id']" position="replace">
+                    <field name="product_id" attrs="{'column_invisible': [('parent.po_created', '!=', False)],'readonly': [('state', 'in', ('purchase', 'to approve','done', 'cancel'))]}" context="{'partner_id':parent.partner_id, 'quantity':product_qty,'uom':product_uom, 'company_id': parent.company_id}" force_save="1"/>
+                </xpath>
+                <xpath expr="//notebook/page/field[@name='order_line']/tree/field[@name='name']" position="replace">
+                    <field name="name" attrs="{'column_invisible': [('parent.po_created', '!=', False)]}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

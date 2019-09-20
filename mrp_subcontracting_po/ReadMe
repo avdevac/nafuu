@@ -1,0 +1,4 @@
+12.0.0.0
+-- added services page in BOM. Please Enable Subcontract BOM. then add the service product under Services in BOM. Add the subcontractor.
+-- While creating MO, Services will be automatically update from BOM. 
+-- After process the workorder, PO will be created to subcontractor. and finished product cost will be calculated from total BOM cost + total services cost.

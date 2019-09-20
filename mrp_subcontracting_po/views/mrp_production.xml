@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="mrp_production_form_inherit_service_view">
+            <field name="name">mrp.production.service.form.inherit</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+            <field name="arch" type="xml">
+            	<field name="company_id" position="after">
+                	<field name="subcontract_bom" invisible="1"/>
+            	</field>
+                <notebook position="inside">
+		             <page string="Services Product" attrs="{'invisible': [('subcontract_bom','=',False)]}">
+		                 <field name="service_ids">
+		                     <tree string="service products"  editable="bottom">
+		                         <field name="product_id"/>
+		                         <field name="product_qty"/>
+		                     </tree>
+		                     <form string="service product">
+		                         <field name="product_id"/>
+		                         <field name="product_qty"/>
+		                     </form>
+		                </field>
+		            </page>
+            </notebook>
+            </field>
+        </record>
+        
+    </data>
+</odoo>
