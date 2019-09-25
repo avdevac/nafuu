@@ -69,6 +69,7 @@ class mrpworkorder_inherit(models.Model):
 								'partner_id': self.production_id.bom_id.supplier_id.id,
 								'date_planned' : datetime.today(),
 								'po_created':True,
+								'btn_shw':True,
 								'mrp_id' : self.production_id.id,
 								'origin' : self.production_id.name
 							})

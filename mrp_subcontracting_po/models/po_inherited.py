@@ -16,7 +16,30 @@ class PurchaseOrder_inherit(models.Model):
 
 	mrp_id = fields.Many2one('mrp.production',string="MRP")
 	po_created = fields.Boolean("po created for wo")
-	
+	btn_shw = fields.Boolean("Show Button")
+	# btn_hide = fields.Boolean("Hide Button",default=True)
+
+	@api.multi
+	def wo_close(self):
+		if self.state == 'purchase':
+			if self.mrp_id.workorder_ids:
+				rcd_pro = self.env['mrp.workorder'].browse(self.mrp_id.workorder_ids.id).record_production()
+				if rcd_pro:
+					mo_done = self.env['mrp.production'].browse(self.mrp_id.id).button_mark_done()
+				if mo_done:
+					if self.order_line:
+						if self.mrp_id.state == 'done':
+							self.order_line[0].qty_received = self.mrp_id.finished_move_line_ids[0].qty_done
+
+					self.btn_shw = False
+					# self.btn_hide = False
+		else:
+			raise UserError(_('Please confirm the Purchase Quotation.'))
+
+	@api.multi
+	def wo_success(self):
+		return True
+
 
 class PurchaseOrderLine_inherit(models.Model):
 	_inherit = 'purchase.order.line'

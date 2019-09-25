@@ -8,6 +8,8 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='partner_ref']" position="after">
                     <field name="po_created" invisible="1"/>
+                    <field name="btn_shw" invisible="1"/>
+                    <!-- <field name="btn_hide" invisible="1"/> -->
                 </xpath>
                 <xpath expr="//notebook/page/field[@name='order_line']/tree/field[@name='name']" position="before">
                     <field name="service" attrs="{'column_invisible': [('parent.po_created', '!=', True)]}"/>
@@ -19,6 +21,12 @@
                 <xpath expr="//notebook/page/field[@name='order_line']/tree/field[@name='name']" position="replace">
                     <field name="name" attrs="{'column_invisible': [('parent.po_created', '!=', False)]}"/>
                 </xpath>
+                <xpath expr="//field[@name='origin']" position="after">
+                    <button name="wo_close" string="Complete Work Order" class="btn btn-primary" attrs="{'invisible':['|',('po_created','=',False),('btn_shw','=',False)]}" type="object"/>
+                </xpath>
+<!--                 <xpath expr="//button[@name='wo_close']" position="after">
+                    <button name="wo_success" string="Completed" class="btn btn-primary" attrs="{'invisible':[('btn_hide','=',True)]}" type="object"/>
+                </xpath> -->
             </field>
         </record>
     </data>
